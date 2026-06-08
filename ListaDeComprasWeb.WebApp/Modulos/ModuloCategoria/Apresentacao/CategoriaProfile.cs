@@ -1,5 +1,4 @@
 using AutoMapper;
-using ListaDeComprasWeb.WebApp.ModuloCategoria.Apresentacao;
 using ListaDeComprasWeb.WebApp.Modulos.ModuloCategoria.Aplicacao;
 
 namespace ListaDeComprasWeb.WebApp.Modulos.ModuloCategoria.Apresentacao;

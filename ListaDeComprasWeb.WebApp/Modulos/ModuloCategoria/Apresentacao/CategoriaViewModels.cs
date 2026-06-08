@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ListaDeComprasWeb.WebApp.ModuloCategoria.Apresentacao;
+namespace ListaDeComprasWeb.WebApp.Modulos.ModuloCategoria.Apresentacao;
 
 public record ListarCategoriasViewModel(
     Guid Id,
