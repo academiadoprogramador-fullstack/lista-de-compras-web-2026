@@ -64,8 +64,7 @@ public class ServicoItemLista
     public List<ListarItensListaDto> SelecionarTodosPorLista(Guid listaComprasId)
     {
         return repositorioItemLista
-            .SelecionarTodos()
-            .Where(i => i.ListaCompras.Id == listaComprasId)
+            .Filtrar(i => i.ListaCompras.Id == listaComprasId)
             .Select(MapearParaListarDto)
             .ToList();
     }
@@ -88,9 +87,7 @@ public class ServicoItemLista
             return Result.Fail("Lista de compras não encontrada.");
 
         List<ItemLista> itens = repositorioItemLista
-            .SelecionarTodos()
-            .Where(i => i.ListaCompras.Id == lista.Id)
-            .ToList();
+            .Filtrar(i => i.ListaCompras.Id == lista.Id);
 
         return Result.Ok(new DetalhesListaItemDto(
             lista.Id,

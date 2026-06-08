@@ -1,5 +1,6 @@
 using FluentResults;
 using ListaDeComprasWeb.WebApp.Modulos.ModuloCategoria.Dominio;
+using ListaDeComprasWeb.WebApp.Modulos.ModuloItemLista.Dominio;
 using ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Dominio;
 
 namespace ListaDeComprasWeb.WebApp.Modulos.ModuloProduto.Aplicacao;
@@ -8,14 +9,17 @@ public class ServicoProduto
 {
     private readonly IRepositorioProduto repositorioProduto;
     private readonly IRepositorioCategoria repositorioCategoria;
+    private readonly IRepositorioItemLista repositorioItemLista;
 
     public ServicoProduto(
         IRepositorioProduto repositorioProduto,
-        IRepositorioCategoria repositorioCategoria
+        IRepositorioCategoria repositorioCategoria,
+        IRepositorioItemLista repositorioItemLista
     )
     {
         this.repositorioProduto = repositorioProduto;
         this.repositorioCategoria = repositorioCategoria;
+        this.repositorioItemLista = repositorioItemLista;
     }
 
     public Result Cadastrar(CadastrarProdutoDto dto)
@@ -83,6 +87,13 @@ public class ServicoProduto
 
         if (produto == null)
             return Result.Fail("Produto não encontrado.");
+
+        bool possuiItens = repositorioItemLista
+            .SelecionarTodos()
+            .Any(i => i.Produto.Id == id);
+
+        if (possuiItens)
+            return Result.Fail("Este produto não pode ser excluído pois possui itens de lista vinculados.");
 
         repositorioProduto.Excluir(id);
 
