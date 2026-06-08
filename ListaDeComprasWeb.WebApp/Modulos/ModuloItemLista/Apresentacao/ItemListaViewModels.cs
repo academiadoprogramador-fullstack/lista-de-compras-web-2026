@@ -45,6 +45,8 @@ public record CadastrarItemListaViewModel(
     [Range(0.01, double.MaxValue, ErrorMessage = "O campo \"Quantidade\" deve conter um valor maior que 0.")]
     decimal Quantidade,
 
+    bool AdicionarOutro,
+
     [ValidateNever]
     List<OpcaoProdutoViewModel> Produtos
 );

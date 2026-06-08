@@ -46,6 +46,7 @@ public class ItemListaController(ServicoItemLista servicoItemLista, IMapper mape
             listaId,
             Guid.Empty,
             1,
+            false,
             SelecionarProdutos()
         );
 
@@ -68,6 +69,9 @@ public class ItemListaController(ServicoItemLista servicoItemLista, IMapper mape
 
             return View(cadastrarVm with { Produtos = SelecionarProdutos() });
         }
+
+        if (cadastrarVm.AdicionarOutro)
+            return RedirectToAction(nameof(Cadastrar), new { listaId = cadastrarVm.ListaComprasId });
 
         return RedirectToAction(nameof(Listar), new { listaId = cadastrarVm.ListaComprasId });
     }
