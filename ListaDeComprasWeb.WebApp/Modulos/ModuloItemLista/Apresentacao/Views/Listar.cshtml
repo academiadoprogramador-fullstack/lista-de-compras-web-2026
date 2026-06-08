@@ -1,0 +1,81 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Itens da Lista";
+}
+
+@model GerenciarItensListaViewModel;
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <a class="btn btn-outline-primary rounded-pill px-4" asp-controller="ListaCompras" asp-action="Listar">Voltar</a>
+    <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Cadastrar" asp-route-listaId="@Model.Lista.Id">Adicionar Item</a>
+</div>
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+}
+
+<div class="card border-primary-subtle shadow-sm mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <h5 class="card-title mb-0">@Model.Lista.Nome</h5>
+            <span class="badge text-bg-primary rounded-pill">@Model.Lista.Status</span>
+        </div>
+
+        <dl class="row g-2 mb-0">
+            <dt class="col-sm-4 col-lg-2 text-secondary fw-semibold">Itens</dt>
+            <dd class="col-sm-8 col-lg-4 mb-0">@Model.Lista.TotalItens</dd>
+
+            <dt class="col-sm-4 col-lg-2 text-secondary fw-semibold">Total Estimado</dt>
+            <dd class="col-sm-8 col-lg-4 mb-0">@Model.Lista.TotalEstimado.ToString("C")</dd>
+        </dl>
+    </div>
+</div>
+
+@if (Model.Itens.Count == 0)
+{
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhum item adicionado nesta lista.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+        @foreach (ListarItensListaViewModel i in Model.Itens)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                            <h5 class="card-title mb-0">@i.ProdutoNome</h5>
+                            <span class="badge text-bg-primary rounded-pill">@i.Id</span>
+                        </div>
+
+                        <dl class="row g-2 mb-4">
+                            <dt class="col-6 text-secondary fw-semibold">Categoria</dt>
+                            <dd class="col-6 mb-0 text-break">
+                                <span class="d-inline-block rounded-circle border me-2 align-middle" style="width: 1rem; height: 1rem; background-color: @i.CategoriaCor;"></span>
+                                @i.CategoriaNome
+                            </dd>
+
+                            <dt class="col-6 text-secondary fw-semibold">Quantidade</dt>
+                            <dd class="col-6 mb-0 text-break">@i.Quantidade @i.UnidadeMedida</dd>
+
+                            <dt class="col-6 text-secondary fw-semibold">Preço</dt>
+                            <dd class="col-6 mb-0 text-break">@i.PrecoAproximado.ToString("C")</dd>
+
+                            <dt class="col-6 text-secondary fw-semibold">Subtotal</dt>
+                            <dd class="col-6 mb-0 text-break">@i.Subtotal.ToString("C")</dd>
+                        </dl>
+
+                        <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir" asp-route-id="@i.Id">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
