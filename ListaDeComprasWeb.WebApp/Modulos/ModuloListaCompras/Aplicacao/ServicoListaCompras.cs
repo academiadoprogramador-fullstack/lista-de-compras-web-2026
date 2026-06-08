@@ -51,6 +51,23 @@ public class ServicoListaCompras
         return Result.Ok();
     }
 
+    public Result Excluir(Guid id)
+    {
+        ListaCompras? lista = repositorioListaCompras.SelecionarPorId(id);
+
+        if (lista == null)
+            return Result.Fail("Lista de compras não encontrada.");
+
+        List<ItemLista> itensDaLista = SelecionarItensDaLista(id);
+
+        foreach (ItemLista item in itensDaLista)
+            repositorioItemLista.Excluir(item.Id);
+
+        repositorioListaCompras.Excluir(id);
+
+        return Result.Ok();
+    }
+
     public List<ListarListasComprasDto> SelecionarTodos()
     {
         return repositorioListaCompras

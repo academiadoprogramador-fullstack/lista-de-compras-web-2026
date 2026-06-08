@@ -27,3 +27,12 @@ public record EditarListaComprasViewModel(
 
     StatusListaCompras Status
 );
+
+public record ExcluirListaComprasViewModel(
+    Guid Id,
+    string Nome,
+    DateTime DataCriacao,
+    StatusListaCompras Status,
+    int TotalItens,
+    decimal TotalEstimado
+);
